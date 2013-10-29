@@ -1,6 +1,6 @@
 # Venmo Objective-C Style Guide
 
-This style guide outlines the coding conventions of the iOS team at Venmo.
+This style guide outlines the coding conventions of the iOS team at Venmo. It was forked from the [NYT iOS Style Guide](https://github.com/NYTimes/objective-c-style-guide/).
 
 ## Introduction
 
@@ -418,4 +418,3 @@ When possible, always turn on "Treat Warnings as Errors" in the target's Build S
 
 How to format and structure podfiles
 
-This document was based on the [NYT iOS Style Guide](https://github.com/NYTimes/objective-c-style-guide/).
