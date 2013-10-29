@@ -105,6 +105,20 @@ result = a > b ? x : y;
 result = a > b ? x = c > d ? c : d : y;
 ```
 
+### Null-coalescing operator
+
+The null-coalescing operator, `?:`, should be used instead of a repetitive ternary operator.
+
+**For example:**
+```objc
+result = foo.name ?: @"";
+```
+
+**Not:**
+```objc
+result = foo.name ? foo.name : @"";
+```
+
 ## Error handling
 
 When methods return a BOOL value and pass an error parameter by reference, switch on the returned value, not the error variable.
