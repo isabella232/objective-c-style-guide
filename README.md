@@ -406,7 +406,7 @@ Text and example taken from the [Cocoa Naming Guidelines](https://developer.appl
 
 ## Singletons
 
-Singleton objects should use a thread-safe pattern for creating their shared instance.
+Singleton objects should use a thread-safe pattern for creating their shared instance, GCD `dispatch_once` is preferred over the older `@synchronized` method.
 ```objc
 + (instancetype)sharedInstance {
    static id sharedInstance = nil;
