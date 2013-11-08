@@ -427,6 +427,22 @@ The physical files should be kept in sync with the Xcode project files in order 
 
 When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
 
+## Resources
+
+Resources should be grouped in folders under the `Resources` folder which map to the functional area of the app.
+
+Resource names should be prepended with the name of the functional area (e.g. `sideDrawer` or `paymentFeed`) and should be written in camel case.
+All image resources should have both a retina (@2x) and non-retina version. The non-retina version should be the exact pixel size of the `UIImageView` that it's contained within.
+
+e.g. `sideDrawerHeaderSeparator.png` and `sideDrawerHeaderSeparator@2x.png`
+
+NOT any of...
+```
+side_drawer_header_separator.png
+headerSeparator.png
+separator.png
+etc..
+```
 
 ## Podfile
 
