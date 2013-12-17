@@ -432,6 +432,20 @@ separator.png
 etc..
 ```
 
+## Blocks
+
+When using blocks, you `MUST` make sure that the block exists and is valid before executing it. ARC does not `nil` blocks whose scope is no longer relevant.
+
+```
+if (blockName) {
+ blockName(arg1, arg2);
+}
+
+Not..
+
+blockName(arg1, arg2); // EXC_BAD_ACCESS if it's owner has been released
+```
+
 ## Podfile
 
 How to format and structure podfiles
