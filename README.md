@@ -221,6 +221,21 @@ Properties should be camel-case with the leading word being lowercase. **If Xcod
 id varnm;
 ```
 
+### Constants
+
+Constant names should describe the constant in order of increasing specificity: 
+
+```
+NSString *const VENUserDefaultsKeyHasLoggedIn = @"HasLoggedIn";
+```
+
+Names should follow this form where possible:
+
+```
+<constant-name> ::= "VEN" <category> <type> <name>
+<type> ::= "Key" | "Name" | "Value" | "Parameter" | ""
+```
+
 ### Underscores
 
 When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. Local variables should not contain underscores.
