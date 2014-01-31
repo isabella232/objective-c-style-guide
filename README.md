@@ -21,7 +21,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Methods](#methods)
 * [Variables](#variables)
 * [Naming](#naming)
-  * [Constants](#constants) 
+  * [Constants and Enums](#constants) 
   * [Underscores](#underscores)
 * [Comments](#comments)
 * [Init & Dealloc](#init-and-dealloc)
@@ -222,15 +222,21 @@ Properties should be camel-case with the leading word being lowercase. **If Xcod
 id varnm;
 ```
 
-### Constants
+### Constants and Enums
 
-Constant names should describe the constant in order of increasing specificity: 
+Constants and enums should be descriptively named in order of increasing specificity: 
 
 ```
-NSString *const VENUserDefaultsKeyHasLoggedIn = @"HasLoggedIn";
+NSString *const VENUserDefaultsKeyHasLoggedIn       = @"HasLoggedIn";
+NSString *const VENUserDefaultsKeyHasInvitedFriends = @"HasInvitedFriends";
+
+typedef NS_ENUM(NSUInteger, VENPeopleDrawerSection) {
+    VENPeopleDrawerSectionNearby,
+    VENPeopleDrawerSectionRecents
+};
 ```
 
-Names should follow this form where possible:
+Names should follow this form:
 
 ```
 <constant-name> ::= "VEN" <category> <type> <name>
