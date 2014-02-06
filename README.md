@@ -21,7 +21,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Methods](#methods)
 * [Variables](#variables)
 * [Naming](#naming)
-  * [Constants and Enums](#constants) 
+  * [Constants and Enums](#constants-and-enums) 
   * [Underscores](#underscores)
 * [Comments](#comments)
 * [Init & Dealloc](#init-and-dealloc)
