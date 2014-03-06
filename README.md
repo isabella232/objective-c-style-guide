@@ -477,5 +477,24 @@ blockName(arg1, arg2); // EXC_BAD_ACCESS if it's owner has been released
 
 ## Podfile
 
-How to format and structure podfiles
+Podfiles should explicitly call out targets which the pods should be included in and explicitly state the minimum OS version for each.
+
+```ruby
+inhibit_all_warnings!
+
+target 'Venmo', :exclusive => true do
+  platform :ios, '6.0'
+  pod 'Underscore.m', '~> 0.2'
+end
+
+target 'Regression Tests', :exclusive => true do
+  platform :ios, '6.0'
+  pod 'Specta', '~> 0.2.1'
+  pod 'Expecta', '~> 0.2.2'
+end
+```
+
+The `inhibit_all_warnings!` property should be set to ensure that we can target 0-warnings in our builds. Where we created a pod internally, it should have 'treat warnings as errors' enabled so should not trigger warnings.
+
+Pods should specify an explicit version and allow hotfix-level updates using the `~>` indicator.
 
