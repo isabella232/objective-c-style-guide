@@ -13,6 +13,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 
 ## Table of Contents
 
+* [Commits](#commits)
 * [Dot-Notation Syntax](#dot-notation-syntax)
 * [Spacing](#spacing)
 * [Conditionals](#conditionals)
@@ -33,6 +34,12 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Booleans](#booleans)
 * [Singletons](#singletons)
 * [Xcode Project](#xcode-project)
+
+## Commits
+
+Code should be commited granularly such that each commit represents a small unit of work that compiles and is in a functional state. Avoid commits where compiling is impossible unless it is necessary due to a large refactor.
+
+Commits should have a short, descriptive message in the imperative mood as if commmanding the codebase to transform itself in such a way that the command is completed. e.g. `Add support for multiple recipients on a payment` or `Fix bug where user is charged instead of paid if there are special characters in the to field`.
 
 ## Dot-Notation Syntax
 
