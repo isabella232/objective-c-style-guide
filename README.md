@@ -34,6 +34,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Booleans](#booleans)
 * [Singletons](#singletons)
 * [Xcode Project](#xcode-project)
+* [Testing](#testing)
 
 ## Commits
 
@@ -60,15 +61,18 @@ UIApplication.sharedApplication.delegate;
 ## Spacing
 
 * Indent using 4 spaces. Never indent with tabs. Be sure to set this preference in Xcode.
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
+* Method braces should open on the next line and close on a new line. Other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
 
 **For example:**
 ```objc
-if (user.isHappy) {
-    //Do something
-}
-else {
-    //Do something else
+- (void)doSomethingForUser
+{
+  if (user.isHappy) {
+      //Do something
+  }
+  else {
+      //Do something else
+  }
 }
 ```
 * There should be exactly two blank lines between methods to aid in visual clarity and organization. Whitespace within methods should separate functionality, but often there should probably be new methods.
@@ -249,6 +253,16 @@ Names should follow this form:
 <constant-name> ::= "VEN" <category> <type> <name>
 <type> ::= "Key" | "Name" | "Value" | "Parameter" | ""
 ```
+
+## Strongly Typed
+  Prefer strongly typed strings over liberal uses of naked strings:
+
+  ```
+  // Bad
+  [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
+
+  // Good
+  ```
 
 ### Underscores
 
@@ -497,4 +511,18 @@ end
 The `inhibit_all_warnings!` property should be set to ensure that we can target 0-warnings in our builds. Where we created a pod internally, it should have 'treat warnings as errors' enabled so should not trigger warnings.
 
 Pods should specify an explicit version and allow hotfix-level updates using the `~>` indicator.
+
+## Testing
+
+### Unit
+
+### Integration
+
+### HTTP
+
+### Acceptance
+
+### Stubbing
+
+### Mocking
 
