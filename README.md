@@ -24,6 +24,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Naming](#naming)
   * [Constants and Enums](#constants-and-enums) 
   * [Underscores](#underscores)
+* [Strongly Typed](#strongly-typed)
 * [Comments](#comments)
 * [Init & Dealloc](#init-and-dealloc)
 * [Literals](#literals)
