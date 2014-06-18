@@ -102,6 +102,34 @@ or
 if (!error) return success;
 ```
 
+Multiline conditionals should break on the boolean operator, and the bracket should open on a new line to aid in readability.
+
+**For example:**
+```objc
+if ((something &&
+    somethingElse) ||
+    anotherThing)
+{
+    // Do Stuff
+}
+```
+
+**Not:**
+```objc
+if ((something &&
+    somethingElse) ||
+    anotherThing) {
+    // Do Stuff
+}
+
+if ((something
+    && somethingElse)
+    || anotherThing) 
+{
+    // Do Stuff
+}
+```
+
 ### Ternary Operator
 
 The Ternary operator, ? , should only be used when it increases clarity or code neatness. A single condition is usually all that should be evaluated. Evaluating multiple conditions is usually more understandable as an if statement, or refactored into instance variables.
