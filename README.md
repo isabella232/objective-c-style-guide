@@ -34,7 +34,6 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Booleans](#booleans)
 * [Singletons](#singletons)
 * [Xcode Project](#xcode-project)
-* [Testing](#testing)
 
 ## Commits
 
