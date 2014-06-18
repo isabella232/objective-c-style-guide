@@ -288,6 +288,7 @@ Names should follow this form:
   [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
 
   // Good
+  [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(User) inManagedObjectContext:context];
   ```
 
 ### Underscores
