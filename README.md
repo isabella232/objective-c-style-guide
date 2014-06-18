@@ -282,7 +282,7 @@ Names should follow this form:
 ```
 
 ## Strongly Typed
-  Prefer strongly typed strings over liberal uses of naked strings:
+  Prefer strongly typed strings over naked strings:
 
   ```
   // Bad
