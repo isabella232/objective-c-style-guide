@@ -268,6 +268,8 @@ Names should follow this form:
 
 When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. Local variables should not contain underscores.
 
+**An exception** to this rule is inside `init` and `dealloc` methods, when it cannot be relied upon that an object is in a complete state, and therefor setter should not be getting called and `_` should be used.
+
 ## Comments
 
 When they are needed, comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
@@ -281,7 +283,8 @@ Block comments should generally be avoided, as code should be as self-documentin
 `init` methods should be structured like this:
 
 ```objc
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init]; // or call the designated initalizer
     if (self) {
         // Custom initialization
