@@ -265,7 +265,7 @@ id varnm;
 Constants and enums should be descriptively named in order of increasing specificity: 
 
 ```
-NSString *const VENUserDefaultsKeyHasLoggedIn       = @"HasLoggedIn";
+NSString *const VENUserDefaultsKeyHasLoggedIn = @"HasLoggedIn";
 NSString *const VENUserDefaultsKeyHasInvitedFriends = @"HasInvitedFriends";
 
 typedef NS_ENUM(NSUInteger, VENPeopleDrawerSection) {
