@@ -465,10 +465,10 @@ When possible, always turn on "Treat Warnings as Errors" in the target's Build S
 
 Resources should be grouped in folders under the `Resources` folder which map to the functional area of the app.
 
-Resource names should be prepended with the name of the functional area (e.g. `sideDrawer` or `paymentFeed`) and should be written in camel case.
+Resource names should be prepended with the name of the functional area and an underscore (e.g. `SideDrawer_Icon` or `PaymentFeed_BackgroundGradient`) and should be written in camel case.
 All image resources should have both a retina (@2x) and non-retina version. The non-retina version should be the exact pixel size of the `UIImageView` that it's contained within.
 
-e.g. `sideDrawerHeaderSeparator.png` and `sideDrawerHeaderSeparator@2x.png`
+e.g. `SideDrawer_HeaderSeparator.png` and `SideDrawer_HeaderSeparator@2x.png`
 
 NOT any of...
 ```
@@ -514,18 +514,3 @@ end
 The `inhibit_all_warnings!` property should be set to ensure that we can target 0-warnings in our builds. Where we created a pod internally, it should have 'treat warnings as errors' enabled so should not trigger warnings.
 
 Pods should specify an explicit version and allow hotfix-level updates using the `~>` indicator.
-
-## Testing
-
-### Unit
-
-### Integration
-
-### HTTP
-
-### Acceptance
-
-### Stubbing
-
-### Mocking
-
