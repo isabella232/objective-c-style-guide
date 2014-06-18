@@ -69,8 +69,7 @@ UIApplication.sharedApplication.delegate;
 {
   if (user.isHappy) {
       //Do something
-  }
-  else {
+  } else {
       //Do something else
   }
 }
