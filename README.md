@@ -274,6 +274,8 @@ typedef NS_ENUM(NSUInteger, VENPeopleDrawerSection) {
 };
 ```
 
+Enums should start at 0 (the default for `NS_ENUM`) unless there is good reason not to (ie, not wanting the first value to match with nil)
+
 Names should follow this form:
 
 ```
