@@ -24,6 +24,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Naming](#naming)
   * [Constants and Enums](#constants-and-enums) 
   * [Underscores](#underscores)
+* [Strongly Typed](#strongly-typed)
 * [Comments](#comments)
 * [Init & Dealloc](#init-and-dealloc)
 * [Literals](#literals)
@@ -60,18 +61,20 @@ UIApplication.sharedApplication.delegate;
 ## Spacing
 
 * Indent using 4 spaces. Never indent with tabs. Be sure to set this preference in Xcode.
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
+* Method braces should open on the next line and close on a new line. Other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
 
 **For example:**
 ```objc
-if (user.isHappy) {
-    //Do something
-}
-else {
-    //Do something else
+- (void)doSomethingForUser
+{
+  if (user.isHappy) {
+      //Do something
+  } else {
+      //Do something else
+  }
 }
 ```
-* There should be exactly two blank lines between methods to aid in visual clarity and organization. Whitespace within methods should separate functionality, but often there should probably be new methods.
+* There should be exactly one blank line between methods, and two blank lines before a pragma mark. Whitespace within methods should separate functionality, but often there should probably be new methods.
 * `@synthesize` and `@dynamic` should each be declared on new lines in the implementation.
 * `@synthesize` of multiple related properties on one line is encouraged.
 
@@ -96,6 +99,34 @@ or
 
 ```objc
 if (!error) return success;
+```
+
+Multiline conditionals should break on the boolean operator, and the bracket should open on a new line to aid in readability.
+
+**For example:**
+```objc
+if ((something &&
+    somethingElse) ||
+    anotherThing)
+{
+    // Do Stuff
+}
+```
+
+**Not:**
+```objc
+if ((something &&
+    somethingElse) ||
+    anotherThing) {
+    // Do Stuff
+}
+
+if ((something
+    && somethingElse)
+    || anotherThing) 
+{
+    // Do Stuff
+}
 ```
 
 ### Ternary Operator
@@ -234,7 +265,7 @@ id varnm;
 Constants and enums should be descriptively named in order of increasing specificity: 
 
 ```
-NSString *const VENUserDefaultsKeyHasLoggedIn       = @"HasLoggedIn";
+NSString *const VENUserDefaultsKeyHasLoggedIn = @"HasLoggedIn";
 NSString *const VENUserDefaultsKeyHasInvitedFriends = @"HasInvitedFriends";
 
 typedef NS_ENUM(NSUInteger, VENPeopleDrawerSection) {
@@ -243,6 +274,8 @@ typedef NS_ENUM(NSUInteger, VENPeopleDrawerSection) {
 };
 ```
 
+Enums should start at 0 (the default for `NS_ENUM`) unless there is good reason not to (ie, not wanting the first value to match with nil)
+
 Names should follow this form:
 
 ```
@@ -250,11 +283,35 @@ Names should follow this form:
 <type> ::= "Key" | "Name" | "Value" | "Parameter" | ""
 ```
 
+## Strongly Typed
+  Prefer strongly typed strings over naked strings:
+
+  ```
+  // Bad
+  [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
+
+  // Good
+  [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(User) inManagedObjectContext:context];
+  ```
+
 ### Underscores
 
 When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. Local variables should not contain underscores.
 
+**An exception** to this rule is inside `init` and `dealloc` methods, when it cannot be relied upon that an object is in a complete state, and therefore setters should not be getting called and `_` should be used.
+
 ## Comments
+
+Comments should always have a space after the `//`
+
+**For example:**
+
+```objc
+// Good and fun looking
+
+
+//Bad and harder to read
+```
 
 When they are needed, comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
 
@@ -267,7 +324,8 @@ Block comments should generally be avoided, as code should be as self-documentin
 `init` methods should be structured like this:
 
 ```objc
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init]; // or call the designated initalizer
     if (self) {
         // Custom initialization
@@ -448,10 +506,10 @@ When possible, always turn on "Treat Warnings as Errors" in the target's Build S
 
 Resources should be grouped in folders under the `Resources` folder which map to the functional area of the app.
 
-Resource names should be prepended with the name of the functional area (e.g. `sideDrawer` or `paymentFeed`) and should be written in camel case.
+Resource names should be prepended with the name of the functional area and an underscore (e.g. `SideDrawer_Icon` or `PaymentFeed_BackgroundGradient`) and should be written in camel case.
 All image resources should have both a retina (@2x) and non-retina version. The non-retina version should be the exact pixel size of the `UIImageView` that it's contained within.
 
-e.g. `sideDrawerHeaderSeparator.png` and `sideDrawerHeaderSeparator@2x.png`
+e.g. `SideDrawer_HeaderSeparator.png` and `SideDrawer_HeaderSeparator@2x.png`
 
 NOT any of...
 ```
@@ -497,4 +555,3 @@ end
 The `inhibit_all_warnings!` property should be set to ensure that we can target 0-warnings in our builds. Where we created a pod internally, it should have 'treat warnings as errors' enabled so should not trigger warnings.
 
 Pods should specify an explicit version and allow hotfix-level updates using the `~>` indicator.
-
