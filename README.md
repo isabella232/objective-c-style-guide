@@ -75,8 +75,6 @@ UIApplication.sharedApplication.delegate;
 }
 ```
 * There should be exactly one blank line between methods, and two blank lines before a pragma mark. Whitespace within methods should separate functionality, but often there should probably be new methods.
-* `@synthesize` and `@dynamic` should each be declared on new lines in the implementation.
-* `@synthesize` of multiple related properties on one line is encouraged.
 
 ## Conditionals
 
@@ -319,7 +317,7 @@ Block comments should generally be avoided, as code should be as self-documentin
 
 ## init and dealloc
 
-`dealloc` methods should be placed at the top of the implementation, directly after the `@synthesize` and `@dynamic` statements. `init` should be placed directly below the `dealloc` methods of any class.
+`dealloc` methods should be placed at the top of the implementation, and `init` should be placed directly below the `dealloc` methods of any class.
 
 `init` methods should be structured like this:
 
