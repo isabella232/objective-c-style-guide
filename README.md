@@ -26,7 +26,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Naming](#naming)
   * [Constants and Enums](#constants-and-enums)
   * [Underscores](#underscores)
-* [Strongly Typed](#strongly-typed)
+* [Compile-time Strings](#compile-time-strings)
 * [Comments](#comments)
 * [Init & Dealloc](#init-and-dealloc)
 * [Literals](#literals)
@@ -275,8 +275,8 @@ id varnm;
 Constants and enums should be descriptively named in order of increasing specificity:
 
 ```objc
-NSString *const VENUserDefaultsKeyHasLoggedIn = @"HasLoggedIn";
-NSString *const VENUserDefaultsKeyHasInvitedFriends = @"HasInvitedFriends";
+NSString *const VENUserKeyHasLoggedIn = @"HasLoggedIn";
+NSString *const VENUserKeyHasInvitedFriends = @"HasInvitedFriends";
 
 typedef NS_ENUM(NSUInteger, VENPeopleDrawerSection) {
     VENPeopleDrawerSectionNearby,
@@ -293,9 +293,9 @@ Names should follow this form:
 <type> ::= "Key" | "Name" | "Value" | "Parameter" | ""
 ```
 
-## Strongly Typed
+## Compile-time Strings
 
-Prefer strongly typed strings over naked strings:
+Prefer compile-time Strings over hardcoded strings:
 
 **For example:**
 
