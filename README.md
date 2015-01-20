@@ -2,6 +2,8 @@
 
 This style guide outlines the coding conventions of the iOS team at Venmo. It was forked from the [NYT iOS Style Guide](https://github.com/NYTimes/objective-c-style-guide/).
 
+Thanks to all of [its contributors](https://github.com/NYTimes/objective-c-style-guide/contributors). :octocat:
+
 ## Introduction
 
 Here are some of the documents from Apple that informed the style guide. If something isn't mentioned here, it's probably covered in great detail in one of these:
@@ -22,7 +24,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Methods](#methods)
 * [Variables](#variables)
 * [Naming](#naming)
-  * [Constants and Enums](#constants-and-enums) 
+  * [Constants and Enums](#constants-and-enums)
   * [Underscores](#underscores)
 * [Strongly Typed](#strongly-typed)
 * [Comments](#comments)
@@ -31,9 +33,12 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [CGRect Functions](#cgrect-functions)
 * [Constants](#constants)
 * [Enumerated Types](#enumerated-types)
+* [Bitmasks](#bitmasks)
 * [Private Properties](#private-properties)
+* [Image Naming](#image-naming)
 * [Booleans](#booleans)
 * [Singletons](#singletons)
+* [Imports](#imports)
 * [Xcode Project](#xcode-project)
 
 ## Commits
@@ -68,17 +73,18 @@ UIApplication.sharedApplication.delegate;
 - (void)doSomethingForUser
 {
   if (user.isHappy) {
-      //Do something
+      // Do something
   } else {
-      //Do something else
+      // Do something else
   }
 }
 ```
 * There should be exactly one blank line between methods, and two blank lines before a pragma mark. Whitespace within methods should separate functionality, but often there should probably be new methods.
+* `@synthesize` and `@dynamic` should each be declared on new lines in the implementation.
 
 ## Conditionals
 
-Conditional bodies should always use braces even when a conditional body could be written without braces to prevent [errors](https://github.com/NYTimes/objective-c-style-guide/issues/26#issuecomment-22074256). In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
+Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent [errors](https://github.com/NYTimes/objective-c-style-guide/issues/26#issuecomment-22074256). These errors include adding a second line and expecting it to be part of the if-statement. Another, [even more dangerous defect](http://programmers.stackexchange.com/a/16530) may happen where the line "inside" the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
 
 **For example:**
 ```objc
@@ -121,7 +127,7 @@ if ((something &&
 
 if ((something
     && somethingElse)
-    || anotherThing) 
+    || anotherThing)
 {
     // Do Stuff
 }
@@ -157,7 +163,7 @@ result = foo.name ? foo.name : @"";
 
 ## Error handling
 
-When methods return a BOOL value and pass an error parameter by reference, switch on the returned value, not the error variable.
+When methods return an error parameter by reference, switch on the returned value, not the error variable.
 
 **For example:**
 ```objc
@@ -212,6 +218,10 @@ Property definitions should be used in place of naked instance variables wheneve
 }
 ```
 
+#### Variable Qualifiers
+
+When it comes to the variable qualifiers [introduced with ARC](https://developer.apple.com/library/ios/releasenotes/objectivec/rn-transitioningtoarc/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011226-CH1-SW4), the qualifier (`__strong`, `__weak`, `__unsafe_unretained`, `__autoreleasing`) should be placed between the asterisks and the variable name, e.g., `NSString * __weak text`.
+
 ## Naming
 
 Apple naming conventions should be adhered to wherever possible, especially those related to [memory management rules](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)).
@@ -244,7 +254,9 @@ static const NSTimeInterval NYTArticleViewControllerNavigationFadeAnimationDurat
 static const NSTimeInterval fadetime = 1.7;
 ```
 
-Properties should be camel-case with the leading word being lowercase. **If Xcode can automatically synthesize the variable, then let it.** Otherwise, in order to be consistent, the backing instance variables for these properties should be camel-case with the leading word being lowercase and a leading underscore. This is the same format as Xcode's default synthesis.
+Properties and local variables should be camel-case with the leading word being lowercase.
+
+Instance variables should be camel-case with the leading word being lowercase, and should be prefixed with an underscore. This is consistent with instance variables synthesized automatically by LLVM. **If LLVM can synthesize the variable automatically, then let it.**
 
 **For example:**
 
@@ -260,9 +272,9 @@ id varnm;
 
 ### Constants and Enums
 
-Constants and enums should be descriptively named in order of increasing specificity: 
+Constants and enums should be descriptively named in order of increasing specificity:
 
-```
+```objc
 NSString *const VENUserDefaultsKeyHasLoggedIn = @"HasLoggedIn";
 NSString *const VENUserDefaultsKeyHasInvitedFriends = @"HasInvitedFriends";
 
@@ -282,15 +294,21 @@ Names should follow this form:
 ```
 
 ## Strongly Typed
-  Prefer strongly typed strings over naked strings:
 
-  ```
-  // Bad
-  [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
+Prefer strongly typed strings over naked strings:
 
-  // Good
-  [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(User) inManagedObjectContext:context];
-  ```
+**For example:**
+
+```objc
+[NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(User) inManagedObjectContext:context];
+[NSPredicate predicateWithFormat:@"%K == %@", @keypath([User new], firstName), @"Eli"]
+```
+
+**Not**
+
+```objc
+[NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:context];
+```
 
 ### Underscores
 
@@ -317,14 +335,14 @@ Block comments should generally be avoided, as code should be as self-documentin
 
 ## init and dealloc
 
-`dealloc` methods should be placed at the top of the implementation, and `init` should be placed directly below the `dealloc` methods of any class.
+`dealloc` methods should be placed at the top of the implementation, directly after the `@synthesize` and `@dynamic` statements. `init` should be placed directly below the `dealloc` methods of any class.
 
 `init` methods should be structured like this:
 
 ```objc
 - (instancetype)init
 {
-    self = [super init]; // or call the designated initalizer
+    self = [super init]; // or call the designated initializer
     if (self) {
         // Custom initialization
     }
@@ -416,6 +434,21 @@ typedef NS_ENUM(NSInteger, NYTAdRequestState) {
 };
 ```
 
+## Bitmasks
+
+When working with bitmasks, use the `NS_OPTIONS` macro.
+
+**Example:**
+
+```objc
+typedef NS_OPTIONS(NSUInteger, NYTAdCategory) {
+  NYTAdCategoryAutos      = 1 << 0,
+  NYTAdCategoryJobs       = 1 << 1,
+  NYTAdCategoryRealState  = 1 << 2,
+  NYTAdCategoryTechnology = 1 << 3
+};
+```
+
 ## Private Properties
 
 Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as `NYTPrivate` or `private`) should never be used unless extending another class.
@@ -431,6 +464,17 @@ Private properties should be declared in class extensions (anonymous categories)
 
 @end
 ```
+
+## Image Naming
+
+Image names should be named consistently to preserve organization and developer sanity. They should be named as one camel case string with a description of their purpose, followed by the un-prefixed name of the class or property they are customizing (if there is one), followed by a further description of color and/or placement, and finally their state.
+
+**For example:**
+
+* `RefreshBarButtonItem` / `RefreshBarButtonItem@2x` and `RefreshBarButtonItemSelected` / `RefreshBarButtonItemSelected@2x`
+* `ArticleNavigationBarWhite` / `ArticleNavigationBarWhite@2x` and `ArticleNavigationBarBlackSelected` / `ArticleNavigationBarBlackSelected@2x`.
+
+Images that are used for a similar purpose should be grouped in respective groups in an Images folder.
 
 ## Booleans
 
@@ -464,6 +508,7 @@ if (![someObject boolValue])
 **Not:**
 
 ```objc
+if (isAwesome == YES) // Never do this.
 if ([someObject boolValue] == NO)
 if (isAwesome == YES) // Never do this.
 ```
@@ -494,12 +539,6 @@ Singleton objects should use a thread-safe pattern for creating their shared ins
 ```
 This will prevent [possible and sometimes prolific crashes](http://cocoasamurai.blogspot.com/2011/04/singletons-your-doing-them-wrong.html).
 
-## Xcode project
-
-The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
-
-When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
-
 ## Resources
 
 Resources should be grouped in folders under the `Resources` folder which map to the functional area of the app.
@@ -517,13 +556,38 @@ separator.png
 etc..
 ```
 
+## Xcode project
+
+The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
+
+When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
+
+## Imports
+
+If there is more than one import statement, group the statements [together](http://ashfurrow.com/blog/structuring-modern-objective-c). Commenting each group is optional.
+
+Note: For modules use the [@import](http://clang.llvm.org/docs/Modules.html#using-modules) syntax.
+
+```objc
+// Frameworks
+@import QuartzCore;
+
+// Models
+#import "NYTUser.h"
+
+// Views
+#import "NYTButton.h"
+#import "NYTUserView.h"
+```
+
 ## Blocks
 
 When using blocks, you `MUST` make sure that the block exists and is valid before executing it. ARC does not `nil` blocks whose scope is no longer relevant.
 
-```
+
+```objc
 if (blockName) {
- blockName(arg1, arg2);
+  blockName(arg1, arg2);
 }
 
 Not..
@@ -553,3 +617,15 @@ end
 The `inhibit_all_warnings!` property should be set to ensure that we can target 0-warnings in our builds. Where we created a pod internally, it should have 'treat warnings as errors' enabled so should not trigger warnings.
 
 Pods should specify an explicit version and allow hotfix-level updates using the `~>` indicator.
+
+# Other Objective-C Style Guides
+
+If ours doesn't fit your tastes, have a look at some other style guides:
+
+* [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
+* [GitHub](https://github.com/github/objective-c-conventions)
+* [Adium](https://trac.adium.im/wiki/CodingStyle)
+* [Sam Soffes](https://gist.github.com/soffes/812796)
+* [CocoaDevCentral](http://cocoadevcentral.com/articles/000082.php)
+* [Luke Redpath](http://lukeredpath.co.uk/blog/my-objective-c-style-guide.html)
+* [Marcus Zarra](http://www.cimgf.com/zds-code-style-guide/)
