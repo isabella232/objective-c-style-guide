@@ -314,8 +314,6 @@ Prefer compile-time Strings over hardcoded strings:
 
 When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. Local variables should not contain underscores.
 
-**An exception** to this rule is inside `init` and `dealloc` methods, when it cannot be relied upon that an object is in a complete state, and therefore setters should not be getting called and `_` should be used.
-
 ## Comments
 
 Comments should always have a space after the `//`
